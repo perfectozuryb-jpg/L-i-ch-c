@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lời chúc mỗi ngày 💌</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Be+Vietnam+Pro:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream:   #fdf6ee;
+      --parchment: #f5e9d8;
+      --rose:    #c97d7d;
+      --rose-soft: #e8b4a0;
+      --rose-pale: #f2d8cc;
+      --text-dark: #3d2b24;
+      --text-mid:  #7a5248;
+      --text-light: #b08070;
+      --gold:    #c9a96e;
+      --gold-pale: #e8d5ad;
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--cream);
+      color: var(--text-dark);
+      font-family: 'Cormorant Garamond', 'Noto Serif KR', serif;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 15% 20%, rgba(234,191,163,0.28) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 85% 80%, rgba(201,125,125,0.15) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 40% at 50% 50%, rgba(245,233,216,0.5) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .petals { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .petal {
+      position: absolute;
+      width: 10px; height: 14px;
+      background: radial-gradient(ellipse at 40% 35%, #f7d9cc, #e8b4a0aa);
+      border-radius: 50% 5% 50% 5%;
+      opacity: 0;
+      animation: fall linear infinite;
+      filter: blur(0.3px);
+    }
+    @keyframes fall {
+      0%   { transform: translateY(-40px) translateX(0) rotate(0deg); opacity: 0; }
+      5%   { opacity: 0.55; }
+      90%  { opacity: 0.35; }
+      100% { transform: translateY(110vh) translateX(60px) rotate(380deg); opacity: 0; }
+    }
+
+    .page {
+      position: relative; z-index: 1;
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 40px 24px;
+    }
+
+    .floating-story-btn {
+      position: fixed;
+      top: 24px; right: 24px;
+      width: 44px; height: 44px;
+      background: rgba(253, 246, 238, 0.7);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--gold-pale);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      cursor: pointer;
+      z-index: 100;
+      box-shadow: 0 4px 12px rgba(141,80,60,0.08);
+      transition: all 0.3s ease;
+      animation: floatIcon 3s ease-in-out infinite;
+    }
+    .floating-story-btn:hover {
+      transform: scale(1.1);
+      background: var(--rose-pale);
+      border-color: var(--rose-soft);
+    }
+    @keyframes floatIcon {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    .date-badge {
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-size: 11px;
+      font-weight: 300;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      border: 1px solid var(--gold-pale);
+      border-radius: 20px;
+      padding: 5px 18px;
+      margin-bottom: 36px;
+      background: rgba(253,246,238,0.7);
+      backdrop-filter: blur(4px);
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.2s forwards;
+    }
+
+    .card {
+      max-width: 600px; width: 100%;
+      background: rgba(253, 246, 238, 0.82);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(201,169,110,0.25);
+      border-radius: 28px;
+      padding: 52px 52px 44px;
+      box-shadow:
+        0 4px 6px rgba(141,80,60,0.05),
+        0 20px 60px rgba(141,80,60,0.08),
+        inset 0 1px 0 rgba(255,255,255,0.6);
+      opacity: 0;
+      animation: fadeUp 0.9s ease 0.4s forwards;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute; top: -1px; left: 50%; transform: translateX(-50%);
+      width: 60%; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    .card::after {
+      content: '✦';
+      position: absolute; bottom: 18px; right: 22px;
+      font-size: 12px; color: var(--gold-pale);
+      opacity: 0.6;
+    }
+
+    .to-line {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 24px;
+    }
+    .to-line .icon {
+      font-size: 20px;
+      animation: heartbeat 2.6s ease-in-out infinite;
+    }
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      14%  { transform: scale(1.18); }
+      28%  { transform: scale(1); }
+      42%  { transform: scale(1.1); }
+      56%  { transform: scale(1); }
+    }
+    @keyframes heartbeatBig {
+      0%, 100% { transform: scale(1); }
+      14%  { transform: scale(1.3); }
+      28%  { transform: scale(1); }
+      42%  { transform: scale(1.15); }
+      56%  { transform: scale(1); }
+    }
+    .to-label {
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-size: 11px; font-weight: 300;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--text-light);
+    }
+
+    .divider {
+      width: 100%; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--rose-pale), var(--gold-pale), var(--rose-pale), transparent);
+      margin: 20px 0 32px;
+    }
+
+    .wish-text {
+      font-size: 1.28rem;
+      line-height: 1.9;
+      font-weight: 300;
+      color: var(--text-dark);
+      letter-spacing: 0.01em;
+      min-height: 80px;
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+    .wish-text.kr { font-family: 'Noto Serif KR', serif; font-size: 1.18rem; }
+    .wish-text.vn { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.3rem; }
+    .wish-text.hidden { opacity: 0; transform: translateY(6px); }
+
+    .actions {
+      margin-top: 36px;
+      display: flex; align-items: center; gap: 14px;
+    }
+    .btn-translate {
+      display: flex; align-items: center; gap: 8px;
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-size: 12px; font-weight: 400;
+      letter-spacing: 0.12em;
+      color: var(--text-mid);
+      background: none;
+      border: 1px solid var(--rose-pale);
+      border-radius: 20px;
+      padding: 8px 20px;
+      cursor: pointer;
+      transition: all 0.28s ease;
+      position: relative; overflow: hidden;
+    }
+    .btn-translate::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, var(--rose-pale), var(--gold-pale));
+      opacity: 0; transition: opacity 0.28s ease;
+    }
+    .btn-translate:hover { border-color: var(--rose-soft); color: var(--rose); }
+    .btn-translate:hover::before { opacity: 0.25; }
+    .btn-translate span { position: relative; z-index: 1; }
+    .btn-translate .flag { font-size: 14px; }
+
+    .lang-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--rose-soft);
+      transition: background 0.3s ease;
+    }
+
+    /* ── Footer ── */
+    .footer {
+      margin-top: 44px;
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-size: 11px; letter-spacing: 0.15em;
+      color: var(--text-light);
+      opacity: 0;
+      animation: fadeUp 1s ease 0.8s forwards;
+      text-align: center;
+    }
+    .footer .heart {
+      color: var(--rose);
+      font-size: 14px; 
+      cursor: pointer;
+      display: inline-block;
+      transition: transform 0.2s ease, color 0.3s ease, font-size 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      user-select: none;
+    }
+    .footer .heart.unlocked {
+      font-size: 26px; 
+      color: var(--rose);
+      animation: heartbeatBig 2s ease-in-out infinite; 
+    }
+    .footer .heart:hover { 
+      transform: scale(1.3); 
+      animation-play-state: paused;
+    }
+
+    .love-popup {
+      position: fixed;
+      bottom: 80px;
+      left: 50%; transform: translateX(-50%) translateY(12px);
+      background: rgba(253,246,238,0.95);
+      border: 1px solid rgba(201,125,125,0.3);
+      border-radius: 18px;
+      padding: 18px 28px;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(141,80,60,0.13);
+      backdrop-filter: blur(12px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease, transform 0.35s ease;
+      z-index: 10;
+      white-space: nowrap;
+    }
+    .love-popup.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+      pointer-events: auto;
+    }
+    .love-popup .line-kr {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 1rem; font-weight: 400;
+      color: var(--rose);
+      display: block;
+      margin-bottom: 6px;
+    }
+    .love-popup .line-vn {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-size: 1.05rem;
+      color: var(--text-mid);
+      display: block;
+    }
+    .love-popup .hearts-row {
+      font-size: 12px; letter-spacing: 4px;
+      margin-top: 10px;
+      color: var(--rose-soft);
+    }
+
+    .secret-wrap {
+      max-width: 600px; width: 100%;
+      margin-top: 24px;
+      opacity: 0;
+      animation: fadeUp 1s ease 0.6s forwards;
+      text-align: center;
+    }
+    .secret-trigger {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      color: var(--text-mid); 
+      background: none;
+      border: none;
+      padding: 6px 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      user-select: none;
+      opacity: 0.7;
+      border-bottom: 1px solid transparent;
+      animation: pulseText 2.5s infinite; 
+    }
+    @keyframes pulseText {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
+    }
+    .secret-trigger:hover { 
+      opacity: 1; 
+      color: var(--rose);
+      border-bottom: 1px solid var(--rose-pale);
+    }
+    .secret-trigger .lock-icon { font-size: 12px; }
+
+    .secret-btns {
+      display: flex; gap: 10px; justify-content: center;
+      margin-top: 14px; flex-wrap: wrap;
+    }
+    .s-btn {
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-size: 11px; letter-spacing: 0.1em;
+      border-radius: 20px; padding: 7px 18px;
+      cursor: pointer; border: none;
+      transition: all 0.25s ease;
+    }
+    .s-btn.yes { background: var(--rose-pale); color: var(--rose); }
+    .s-btn.yes:hover { background: var(--rose-soft); color: #fff; }
+    .s-btn.no { background: none; border: 1px solid var(--gold-pale); color: var(--text-light); }
+    .s-btn.no:hover { color: var(--text-mid); }
+
+    .bday-row {
+      display: flex; gap: 10px; justify-content: center; align-items: center;
+      flex-direction: column;
+    }
+    .otp-container {
+      display: flex; gap: 4px; align-items: center; justify-content: center;
+      direction: ltr;
+    }
+    .otp-input, .her-otp-input {
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-size: 15px; font-weight: 500;
+      border: 1px solid var(--gold-pale);
+      border-radius: 8px;
+      background: rgba(253,246,238,0.8);
+      color: var(--text-dark);
+      outline: none; 
+      width: 30px; height: 38px; 
+      text-align: center;
+      transition: border-color 0.25s, transform 0.2s, box-shadow 0.2s;
+      padding: 0;
+    }
+    .otp-input:focus, .her-otp-input:focus { 
+      border-color: var(--rose-soft); 
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(201,125,125,0.15);
+    }
+    .otp-separator {
+      color: var(--gold-pale);
+      font-weight: 300; margin: 0 2px; font-size: 16px;
+    }
+    .bday-hint {
+      margin-top: 10px;
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-size: 10px; letter-spacing: 0.1em;
+      color: var(--rose);
+      min-height: 16px;
+      transition: opacity 0.3s;
+    }
+    .secret-final { border-color: rgba(201,125,125,0.3); }
+
+    .secret-reveal {
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.4s ease;
+      opacity: 0;
+    }
+    .secret-reveal.open {
+      max-height: 200px;
+      opacity: 1;
+    }
+    .secret-inner {
+      margin-top: 12px;
+      background: rgba(253,246,238,0.82);
+      border: 1px solid rgba(201,125,125,0.2);
+      border-radius: 16px;
+      padding: 20px 28px;
+      text-align: center;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 4px 20px rgba(141,80,60,0.07);
+      position: relative;
+    }
+    .secret-inner::before {
+      content: '✦'; position: absolute; top: 10px; left: 14px;
+      font-size: 9px; color: var(--gold-pale);
+    }
+    .secret-inner::after {
+      content: '✦'; position: absolute; top: 10px; right: 14px;
+      font-size: 9px; color: var(--gold-pale);
+    }
+    .secret-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-size: 1.15rem;
+      color: var(--text-mid); line-height: 1.7;
+    }
+    .secret-text .highlight {
+      color: var(--rose); font-style: normal; font-weight: 400;
+    }
+
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(61, 43, 36, 0.4);
+      backdrop-filter: blur(8px);
+      z-index: 999;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+    .modal-overlay.active {
+      opacity: 1; pointer-events: auto;
+    }
+    .story-box {
+      background: var(--cream);
+      border: 1px solid rgba(201,169,110,0.4);
+      border-radius: 24px;
+      padding: 40px 32px;
+      max-width: 420px; width: 90%;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+      transform: translateY(20px) scale(0.95);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+    }
+    .modal-overlay.active .story-box {
+      transform: translateY(0) scale(1);
+    }
+    .story-close {
+      position: absolute; top: 16px; right: 20px;
+      font-size: 24px; color: var(--text-light);
+      cursor: pointer; background: none; border: none;
+      transition: color 0.3s;
+    }
+    .story-close:hover { color: var(--rose); }
+
+    .story-step { display: none; animation: fadeIn 0.5s ease; }
+    .story-step.active { display: block; }
+    @keyframes fadeIn { from{opacity:0; transform:translateY(10px)} to{opacity:1; transform:translateY(0)} }
+
+    .story-title {
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-size: 14px; font-weight: 500;
+      color: var(--rose); margin-bottom: 20px;
+      letter-spacing: 0.05em;
+    }
+    .story-p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem; font-style: italic;
+      color: var(--text-dark); margin-bottom: 24px;
+      line-height: 1.6;
+    }
+
+    .game-options { display: flex; flex-direction: column; gap: 12px; }
+    .game-btn {
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-size: 13px; font-weight: 400;
+      background: rgba(253,246,238,0.8);
+      border: 1px solid var(--gold-pale);
+      border-radius: 12px; padding: 12px;
+      color: var(--text-dark);
+      cursor: pointer; transition: all 0.3s;
+    }
+    .game-btn:hover { background: var(--rose-pale); border-color: var(--rose-soft); color: var(--rose); }
+    
+    .shake { animation: shakeError 0.4s ease-in-out; }
+    @keyframes shakeError {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-6px); }
+      40%, 80% { transform: translateX(6px); }
+    }
+
+    .final-letter {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem; color: var(--text-mid);
+      line-height: 1.8; text-align: left;
+      background: rgba(255,255,255,0.5);
+      padding: 24px; border-radius: 16px;
+      border-left: 3px solid var(--rose-soft);
+      max-height: 300px; overflow-y: auto;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 520px) {
+      .card { padding: 36px 28px 32px; border-radius: 20px; }
+      .wish-text { font-size: 1.1rem; }
+      .wish-text.kr { font-size: 1.05rem; }
+      .floating-story-btn { top: 16px; right: 16px; width: 38px; height: 38px; font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="petals" id="petals"></div>
+
+<div class="floating-story-btn" onclick="openStoryModal()">💌</div>
+
+<div class="page">
+  <div class="date-badge" id="dateBadge">— &nbsp; &nbsp; —</div>
+
+  <div class="card">
+    <div class="to-line">
+      <span class="icon">🌸</span>
+      <span class="to-label">for 누나&nbsp;·&nbsp;for chị</span>
+    </div>
+
+    <div class="divider"></div>
+
+    <p class="wish-text kr" id="wishText">…</p>
+
+    <div class="actions">
+      <div class="lang-dot" id="langDot"></div>
+      <button class="btn-translate" id="btnTranslate" onclick="toggleLang()">
+        <span class="flag">🇻🇳</span>
+        <span id="btnLabel">Dịch sang tiếng Việt</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="secret-wrap">
+    <button class="secret-trigger" id="secretBtn" onclick="secretStep1()">
+      <span class="lock-icon">🔒</span>
+      <span id="secretLabel">ở đây có 1 bí mật nhỏ của em á</span>
+    </button>
+
+    <div class="secret-reveal" id="secretReveal1">
+      <div class="secret-inner">
+        <p class="secret-text">chị muốn biết hả? 👀</p>
+        <div class="secret-btns">
+          <button class="s-btn yes" onclick="secretStep2()">muốn chứ~</button>
+          <button class="s-btn no" onclick="secretNo()">thôi không dám</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="secret-reveal" id="secretReveal2">
+      <div class="secret-inner">
+        <p class="secret-text">chị thật sự muốn biết sao? 🫣</p>
+        <div class="secret-btns">
+          <button class="s-btn yes" onclick="secretStep3()">thật sự á!</button>
+          <button class="s-btn no" onclick="secretNo()">ừ thôi để bí mật đi</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="secret-reveal" id="secretReveal3">
+      <div class="secret-inner">
+        <p class="secret-text" style="margin-bottom:14px;">nhập sinh nhật của em đi mới mở được nha 🎂</p>
+        <div class="bday-row">
+          <div class="otp-container" id="myOtpContainer">
+            <input class="otp-input" type="tel" maxlength="1" />
+            <input class="otp-input" type="tel" maxlength="1" />
+            <span class="otp-separator">/</span>
+            <input class="otp-input" type="tel" maxlength="1" />
+            <input class="otp-input" type="tel" maxlength="1" />
+            <span class="otp-separator">/</span>
+            <input class="otp-input" type="tel" maxlength="1" />
+            <input class="otp-input" type="tel" maxlength="1" />
+            <input class="otp-input" type="tel" maxlength="1" />
+            <input class="otp-input" type="tel" maxlength="1" />
+          </div>
+          <button class="s-btn yes" style="margin-top: 4px;" onclick="checkMyBday()">mở thôi</button>
+        </div>
+        <p class="bday-hint" id="myBdayHint"></p>
+      </div>
+    </div>
+
+    <div class="secret-reveal" id="secretReveal4">
+      <div class="secret-inner secret-final">
+        <p class="secret-text">
+          đôi khi điều nhỏ bé<br>lại <span class="highlight">đập rất mạnh</span> vì đó là điều nó muốn 🌸
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    with love &nbsp;<span class="heart" id="heartBtn" onclick="toggleLove()">♡</span>&nbsp; from em
+  </div>
+
+  <div class="love-popup" id="lovePopup">
+    <span class="line-kr">누나, 저 누나 좋아해요 🌸</span>
+    <span class="line-vn">Em thích chị,rất nhiều luôn á 💕</span>
+    <div class="hearts-row">♡ ♡ ♡</div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="storyModal">
+  <div class="story-box">
+    <button class="story-close" onclick="closeStoryModal()">×</button>
+
+    <!-- Bước 1: Câu hỏi bảo mật Trò chơi -->
+    <div class="story-step active" id="modalStep1">
+      <h3 class="story-title">Xác nhận danh tính 🕵️‍♀️</h3>
+      <p class="story-p">Chị chọn trò chơi đi</p>
+      <div class="game-options">
+        <!-- Nút Sai -->
+        <button class="game-btn" onclick="wrongGame(this)">🎮 Chơi Liên Quân chung rank</button>
+        <!-- Nút Đúng -->
+        <button class="game-btn" onclick="rightGame()">♟️ Đánh Cờ Vua</button>
+        <!-- Nút Sai -->
+        <button class="game-btn" onclick="wrongGame(this)">🔫 Bắn PUBG chạy bo</button>
+      </div>
+      <p class="bday-hint" id="gameHint" style="margin-top:12px;"></p>
+    </div>
+
+    <div class="story-step" id="modalStep2">
+      <h3 class="story-title">Lớp bảo mật cuối 🔐</h3>
+      <p class="story-p">Đúng là trò đó rồi! Nhưng để chắc chắn là chị, hãy nhập ngày sinh của chị đi!</p>
+      
+      <div class="bday-row">
+        <div class="otp-container" id="herOtpContainer">
+          <input class="her-otp-input" type="tel" maxlength="1" />
+          <input class="her-otp-input" type="tel" maxlength="1" />
+          <span class="otp-separator">/</span>
+          <input class="her-otp-input" type="tel" maxlength="1" />
+          <input class="her-otp-input" type="tel" maxlength="1" />
+          <span class="otp-separator">/</span>
+          <input class="her-otp-input" type="tel" maxlength="1" />
+          <input class="her-otp-input" type="tel" maxlength="1" />
+          <input class="her-otp-input" type="tel" maxlength="1" />
+          <input class="her-otp-input" type="tel" maxlength="1" />
+        </div>
+        <button class="s-btn yes" style="margin-top: 14px;" onclick="checkHerBday()">Xác nhận</button>
+      </div>
+      <p class="bday-hint" id="herBdayHint"></p>
+    </div>
+
+    <div class="story-step" id="modalStep3">
+      <h3 class="story-title">Tại sao em tạo ra trang web này? 💌</h3>
+      <div class="final-letter">
+        <p>Gửi chị,</p>
+        <p style="margin-top: 8px;">Em lấy cảm hứng làm web này khi story của chị có cây đào và em nghĩ chị sẽ thích, với trông cũng ấm áp mà nên biết đâu giúp chị ấm hơn đôi chút.</p>
+        <p style="margin-top: 8px;">Em không giỏi nói những lời ngọt ngào sến súa mỗi ngày, nên em đã tự tay viết code làm ra trang web nhỏ này.</p>
+        <p style="margin-top: 8px;">Mỗi sáng thức dậy, em hy vọng trang web này sẽ thay em gửi đến chị một lời động viên nho nhỏ. Giống như một cái ôm ảo để chị bắt đầu ngày mới vậy đó.</p>
+        <p style="margin-top: 8px;">Dù có chuyện gì thì chị vẫn luôn có em ở đây nhé! Cố lên nha! 💕</p>
+        <p style="margin-top: 8px;">Và nếu chị giải mã và thấy bí mật nhỏ trong trang web này. Dù chị nghĩ gì thì bữa chị nhắn là tùy em nên là em sẽ làm điều em muốn. (còn nếu chưa thì hmm.... ai biết gọi em chỉ cho lethienphu20062006@gmail.com)</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  let wishes = [];
+
+  let isVN = false;
+  let currentWish = null;
+
+  function getKSTDate() {
+    const now = new Date();
+    const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+    const kst = new Date(utc + 9 * 3600000);
+    const dd = String(kst.getDate()).padStart(2, '0');
+    const mm = String(kst.getMonth() + 1).padStart(2, '0');
+    return { dateStr: `${dd}/${mm}`, day: kst.getDate(), month: kst.getMonth() + 1, year: kst.getFullYear() };
+  }
+
+  function formatDateBadge(day, month, year) {
+    const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    const now = new Date();
+    const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+    const kst = new Date(utc + 9 * 3600000);
+    const dayName = days[kst.getDay()];
+    return `${dayName}, ${months[month-1]} ${day}, ${year}`;
+  }
+
+  function init() {
+    const { dateStr, day, month, year } = getKSTDate();
+    const wish = wishes.find(w => w.date === dateStr) || null;
+    currentWish = wish;
+
+    document.getElementById('dateBadge').textContent = formatDateBadge(day, month, year) + '  ·  KST';
+
+    const el = document.getElementById('wishText');
+    if (wish) {
+      el.textContent = wish.text_kr;
+      el.className = 'wish-text kr';
+    } else {
+      el.innerHTML = '<span class="no-wish">오늘의 메시지가 없어요 🌙<br><small style="font-size:0.85rem;color:var(--text-light)">오늘 날짜: ' + dateStr + '</small></span>';
+      el.className = 'wish-text';
+      document.getElementById('btnTranslate').style.display = 'none';
+    }
+  }
+
+  function toggleLang() {
+    if (!currentWish) return;
+    const el = document.getElementById('wishText');
+    const btn = document.getElementById('btnLabel');
+    const dot = document.getElementById('langDot');
+
+    el.classList.add('hidden');
+
+    setTimeout(() => {
+      isVN = !isVN;
+      if (isVN) {
+        el.textContent = currentWish.text_vn;
+        el.className = 'wish-text vn';
+        btn.textContent = '한국어로 보기';
+        document.querySelector('.btn-translate .flag').textContent = '🇰🇷';
+        dot.style.background = 'var(--gold)';
+      } else {
+        el.textContent = currentWish.text_kr;
+        el.className = 'wish-text kr';
+        btn.textContent = 'Dịch sang tiếng Việt';
+        document.querySelector('.btn-translate .flag').textContent = '🇻🇳';
+        dot.style.background = 'var(--rose-soft)';
+      }
+      el.classList.remove('hidden');
+    }, 320);
+  }
+
+  function spawnPetals() {
+    const container = document.getElementById('petals');
+    const count = 14;
+    for (let i = 0; i < count; i++) {
+      const p = document.createElement('div');
+      p.className = 'petal';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 14;
+      const dur = 10 + Math.random() * 12;
+      const size = 7 + Math.random() * 8;
+      p.style.cssText = `left:${left}%;width:${size}px;height:${size*1.3}px;animation-delay:${delay}s;animation-duration:${dur}s;`;
+      container.appendChild(p);
+    }
+  }
+
+  spawnPetals();
+
+  fetch('myWish.json')
+    .then(r => r.json())
+    .then(data => { wishes = data; init(); })
+    .catch(() => {
+      document.getElementById('wishText').textContent = '⚠️ Không tải được file myWish.json';
+    });
+
+
+  const SECRET_BDAY = '02/02/2006'; 
+
+  function showReveal(id) { document.getElementById(id).classList.add('open'); }
+  function hideReveal(id) { document.getElementById(id).classList.remove('open'); }
+
+  function secretStep1() {
+    document.getElementById('secretBtn').style.display = 'none';
+    showReveal('secretReveal1');
+  }
+  function secretStep2() {
+    hideReveal('secretReveal1'); showReveal('secretReveal2');
+  }
+  function secretStep3() {
+    hideReveal('secretReveal2'); showReveal('secretReveal3');
+    setTimeout(() => {
+      initOtpFields('.otp-input', checkMyBday, 'myBdayHint');
+      const firstInput = document.querySelector('.otp-input');
+      if (firstInput) firstInput.focus();
+    }, 350);
+  }
+  function secretNo() {
+    ['secretReveal1','secretReveal2','secretReveal3','secretReveal4'].forEach(hideReveal);
+    document.getElementById('secretBtn').style.display = 'inline-flex';
+    document.getElementById('secretLabel').textContent = 'ở đây có 1 bí mật nhỏ của em á';
+  }
+
+  function checkMyBday() {
+    const inputs = document.querySelectorAll('.otp-input');
+    let val = '';
+    inputs.forEach((input, index) => {
+      val += input.value;
+      if (index === 1 || index === 3) val += '/';
+    });
+
+    const hint = document.getElementById('myBdayHint');
+    if (val.length < 10) {
+      hint.textContent = 'nhập đủ ngày tháng năm nha chị~ 🎂'; return;
+    }
+
+    if (val === SECRET_BDAY) {
+      hideReveal('secretReveal3'); showReveal('secretReveal4');
+      const heart = document.getElementById('heartBtn');
+      heart.textContent = '♥';
+      heart.classList.add('unlocked'); 
+    } else {
+      hint.textContent = 'chị nhớ lại đi nha~ 🥺';
+      inputs.forEach(input => input.value = ''); 
+      inputs[0].focus();
+    }
+  }
+
+
+  const HER_BDAY = '24/02/2005'; 
+
+  function openStoryModal() {
+    document.getElementById('storyModal').classList.add('active');
+    document.getElementById('modalStep1').classList.add('active');
+    document.getElementById('modalStep2').classList.remove('active');
+    document.getElementById('modalStep3').classList.remove('active');
+    document.getElementById('gameHint').textContent = '';
+  }
+
+  function closeStoryModal() {
+    document.getElementById('storyModal').classList.remove('active');
+  }
+
+  function wrongGame(btnElement) {
+    btnElement.classList.add('shake');
+    document.getElementById('gameHint').textContent = 'Sai rồi! Khai mau, bạn là ai?? 🤨';
+    setTimeout(() => btnElement.classList.remove('shake'), 400);
+  }
+
+  function rightGame() {
+    document.getElementById('modalStep1').classList.remove('active');
+    document.getElementById('modalStep2').classList.add('active');
+    setTimeout(() => {
+      initOtpFields('.her-otp-input', checkHerBday, 'herBdayHint');
+      const firstInput = document.querySelector('.her-otp-input');
+      if (firstInput) firstInput.focus();
+    }, 100);
+  }
+
+  function checkHerBday() {
+    const inputs = document.querySelectorAll('.her-otp-input');
+    let val = '';
+    inputs.forEach((input, index) => {
+      val += input.value;
+      if (index === 1 || index === 3) val += '/';
+    });
+
+    const hint = document.getElementById('herBdayHint');
+    if (val.length < 10) {
+      hint.textContent = 'nhập đủ ngày tháng năm đi mà 🥺'; return;
+    }
+
+    if (val === HER_BDAY) {
+      document.getElementById('modalStep2').classList.remove('active');
+      document.getElementById('modalStep3').classList.add('active');
+    } else {
+      hint.textContent = 'Ủa chị quên sinh nhật mình rồi hả? 🥲';
+      inputs.forEach(input => input.value = ''); 
+      inputs[0].focus();
+    }
+  }
+
+  function initOtpFields(inputClass, checkFunction, hintId) {
+    const inputs = document.querySelectorAll(inputClass);
+    if (inputs.length === 0 || inputs[0]._init) return;
+
+    inputs.forEach((input, index) => {
+      input._init = true;
+
+      input.addEventListener('input', (e) => {
+        input.value = input.value.replace(/\D/g, ''); 
+        if (input.value !== '' && index < inputs.length - 1) {
+          inputs[index + 1].focus();
+        }
+        document.getElementById(hintId).textContent = '';
+      });
+
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Backspace') {
+          if (input.value === '' && index > 0) {
+            inputs[index - 1].focus();
+            inputs[index - 1].value = ''; 
+          }
+        } else if (e.key === 'Enter') {
+          checkFunction();
+        } else if (e.key === 'ArrowLeft' && index > 0) {
+          inputs[index - 1].focus();
+        } else if (e.key === 'ArrowRight' && index < inputs.length - 1) {
+          inputs[index + 1].focus();
+        }
+      });
+
+      input.addEventListener('paste', (e) => {
+        e.preventDefault();
+        const pasteData = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 8);
+        for (let i = 0; i < pasteData.length; i++) {
+          if (index + i < inputs.length) {
+            inputs[index + i].value = pasteData[i];
+            inputs[index + i].focus();
+          }
+        }
+      });
+    });
+  }
+
+  let loveOpen = false;
+  let loveTimer = null;
+
+  function toggleLove() {
+    const popup = document.getElementById('lovePopup');
+    const heart = document.getElementById('heartBtn');
+    const isUnlocked = heart.classList.contains('unlocked');
+
+    loveOpen = !loveOpen;
+    popup.classList.toggle('show', loveOpen);
+    
+    if (!isUnlocked) {
+      heart.textContent = loveOpen ? '♥' : '♡';
+      heart.style.animation = loveOpen ? 'heartbeatBig 2s ease-in-out infinite' : '';
+    }
+
+    clearTimeout(loveTimer);
+    if (loveOpen) {
+      loveTimer = setTimeout(() => {
+        loveOpen = false;
+        popup.classList.remove('show');
+        if (!isUnlocked) {
+          heart.textContent = '♡';
+          heart.style.animation = '';
+        }
+      }, 4000);
+    }
+  }
+
+  document.addEventListener('click', (e) => {
+    if (loveOpen && !e.target.closest('#heartBtn') && !e.target.closest('#lovePopup')) {
+      loveOpen = false;
+      document.getElementById('lovePopup').classList.remove('show');
+      const heart = document.getElementById('heartBtn');
+      if (!heart.classList.contains('unlocked')) {
+        heart.textContent = '♡';
+        heart.style.animation = '';
+      }
+      clearTimeout(loveTimer);
+    }
+  });
+</script>
+</body>
+</html>
