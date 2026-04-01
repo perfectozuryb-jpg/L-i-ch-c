@@ -23,6 +23,14 @@
       --gold-pale: #e8d5ad;
     }
 
+    body.mai-mode {
+      --rose:    #c9a630;
+      --rose-soft: #e8cc70;
+      --rose-pale: #f5e9b0;
+      --gold:    #b88a1a;
+      --gold-pale: #e0cc80;
+    }
+
     html, body {
       height: 100%;
       background: var(--cream);
@@ -42,7 +50,59 @@
       z-index: 0;
     }
 
+    body.mai-mode::before {
+      background:
+        radial-gradient(ellipse 80% 60% at 15% 20%, rgba(240,220,130,0.22) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 85% 80%, rgba(200,170,50,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 40% at 50% 50%, rgba(250,245,210,0.5) 0%, transparent 70%);
+    }
+
+    /* ── Cành đào/mai Background (NEW) ── */
+    .bg-tree {
+      position: fixed;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.55; /* Độ mờ vừa phải để không lấn át chữ */
+      transition: opacity 0.5s ease;
+    }
+    .bg-tree.top-left {
+      top: -30px; left: -30px;
+      width: clamp(280px, 45vw, 450px);
+      transform-origin: top left;
+      animation: swayTree 8s ease-in-out infinite alternate;
+    }
+    .bg-tree.bottom-right {
+      bottom: -30px; right: -30px;
+      width: clamp(320px, 55vw, 550px);
+      transform-origin: bottom right;
+      animation: swayTree 10s ease-in-out infinite alternate-reverse;
+    }
+    @keyframes swayTree {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(3.5deg); }
+    }
+    
+    .branch-path {
+      fill: none;
+      stroke: rgba(121, 85, 72, 0.75); /* Màu cành cây nâu nhạt */
+      stroke-linecap: round;
+    }
+    .flw-petal {
+      fill: var(--rose-soft);
+      transition: fill 0.8s ease; /* Hiệu ứng chuyển màu mượt mà khi đổi loại hoa */
+    }
+    .flw-center {
+      fill: var(--gold);
+      transition: fill 0.8s ease;
+    }
+    .flw-bud {
+      fill: var(--rose-pale);
+      transition: fill 0.8s ease;
+    }
+
+    /* ── Petals ── */
     .petals { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+
     .petal {
       position: absolute;
       width: 10px; height: 14px;
@@ -52,12 +112,48 @@
       animation: fall linear infinite;
       filter: blur(0.3px);
     }
+
+    .petal.mai {
+      background: radial-gradient(ellipse at 40% 40%, #fef08a, #eab308aa);
+      border-radius: 50%;
+      width: 9px; height: 9px;
+    }
+
     @keyframes fall {
       0%   { transform: translateY(-40px) translateX(0) rotate(0deg); opacity: 0; }
       5%   { opacity: 0.55; }
       90%  { opacity: 0.35; }
       100% { transform: translateY(110vh) translateX(60px) rotate(380deg); opacity: 0; }
     }
+
+    .flower-toggle {
+      position: fixed;
+      top: 24px; left: 24px;
+      background: rgba(253, 246, 238, 0.7);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--gold-pale);
+      border-radius: 20px;
+      display: flex; align-items: center; gap: 6px;
+      padding: 6px 14px;
+      cursor: pointer;
+      z-index: 100;
+      box-shadow: 0 4px 12px rgba(141,80,60,0.08);
+      transition: all 0.3s ease;
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      color: var(--text-mid);
+    }
+    .flower-toggle:hover {
+      background: var(--rose-pale);
+      border-color: var(--rose-soft);
+    }
+    .flower-toggle .flower-icon {
+      font-size: 15px;
+      transition: transform 0.4s ease;
+    }
+    .flower-toggle:hover .flower-icon { transform: rotate(20deg) scale(1.15); }
+    .flower-toggle .flower-label { white-space: nowrap; }
 
     .page {
       position: relative; z-index: 1;
@@ -148,6 +244,7 @@
     .to-line .icon {
       font-size: 20px;
       animation: heartbeat 2.6s ease-in-out infinite;
+      transition: all 0.4s ease;
     }
     @keyframes heartbeat {
       0%, 100% { transform: scale(1); }
@@ -225,7 +322,6 @@
       transition: background 0.3s ease;
     }
 
-    /* ── Footer ── */
     .footer {
       margin-top: 44px;
       font-family: 'Be Vietnam Pro', sans-serif;
@@ -514,12 +610,92 @@
       .wish-text { font-size: 1.1rem; }
       .wish-text.kr { font-size: 1.05rem; }
       .floating-story-btn { top: 16px; right: 16px; width: 38px; height: 38px; font-size: 16px; }
+      .flower-toggle { top: 16px; left: 16px; }
     }
   </style>
 </head>
 <body>
 
+<!-- Cành đào góc trên bên trái -->
+<div class="bg-tree top-left">
+  <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <g id="flw">
+        <circle cx="0" cy="-7" r="6" class="flw-petal" />
+        <circle cx="7" cy="-2" r="6" class="flw-petal" />
+        <circle cx="4" cy="6" r="6" class="flw-petal" />
+        <circle cx="-4" cy="6" r="6" class="flw-petal" />
+        <circle cx="-7" cy="-2" r="6" class="flw-petal" />
+        <circle cx="0" cy="0" r="3" class="flw-center" />
+      </g>
+      <g id="bud">
+        <circle cx="0" cy="0" r="4" class="flw-bud" />
+      </g>
+    </defs>
+    
+    <!-- Thân cành -->
+    <path class="branch-path" stroke-width="12" d="M-50,50 Q100,80 200,200 T400,350" />
+    <path class="branch-path" stroke-width="6" d="M100,90 Q180,50 250,20" />
+    <path class="branch-path" stroke-width="5" d="M150,140 Q100,220 50,300" />
+    <path class="branch-path" stroke-width="4" d="M200,200 Q280,180 350,150" />
+    <path class="branch-path" stroke-width="3" d="M50,300 Q80,350 120,380" />
+
+    <!-- Hoa nở dọc theo cành -->
+    <g transform="translate(100, 90) scale(1.2)"><use href="#flw"/></g>
+    <g transform="translate(180, 50) scale(0.8)"><use href="#flw"/></g>
+    <g transform="translate(250, 20)"><use href="#flw"/></g>
+    <g transform="translate(150, 140)"><use href="#flw"/></g>
+    <g transform="translate(100, 220) scale(1.3)"><use href="#flw"/></g>
+    <g transform="translate(50, 300)"><use href="#flw"/></g>
+    <g transform="translate(200, 200) scale(1.1)"><use href="#flw"/></g>
+    <g transform="translate(280, 180)"><use href="#flw"/></g>
+    <g transform="translate(350, 150) scale(0.9)"><use href="#flw"/></g>
+    <g transform="translate(80, 350)"><use href="#flw"/></g>
+    <g transform="translate(120, 380) scale(1.2)"><use href="#flw"/></g>
+    <g transform="translate(300, 280)"><use href="#flw"/></g>
+
+    <!-- Nụ hoa xen kẽ -->
+    <g transform="translate(130, 70)"><use href="#bud"/></g>
+    <g transform="translate(220, 30)"><use href="#bud"/></g>
+    <g transform="translate(120, 180)"><use href="#bud"/></g>
+    <g transform="translate(70, 260)"><use href="#bud"/></g>
+    <g transform="translate(240, 190)"><use href="#bud"/></g>
+  </svg>
+</div>
+
+<!-- Cành đào góc dưới bên phải -->
+<div class="bg-tree bottom-right">
+  <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+    <path class="branch-path" stroke-width="14" d="M450,450 Q300,300 150,200 T-50,50" />
+    <path class="branch-path" stroke-width="8" d="M300,300 Q250,380 150,400" />
+    <path class="branch-path" stroke-width="6" d="M150,200 Q180,100 250,50" />
+    <path class="branch-path" stroke-width="4" d="M250,50 Q300,20 350,10" />
+    <path class="branch-path" stroke-width="4" d="M50,110 Q20,150 -10,180" />
+
+    <g transform="translate(300, 300) scale(1.3)"><use href="#flw"/></g>
+    <g transform="translate(220, 240) scale(0.9)"><use href="#flw"/></g>
+    <g transform="translate(150, 200) scale(1.1)"><use href="#flw"/></g>
+    <g transform="translate(50, 110) scale(1.2)"><use href="#flw"/></g>
+    <g transform="translate(-10, 180)"><use href="#flw"/></g>
+    <g transform="translate(250, 380)"><use href="#flw"/></g>
+    <g transform="translate(150, 400) scale(1.1)"><use href="#flw"/></g>
+    <g transform="translate(180, 100)"><use href="#flw"/></g>
+    <g transform="translate(250, 50) scale(1.2)"><use href="#flw"/></g>
+    <g transform="translate(300, 20)"><use href="#flw"/></g>
+    
+    <g transform="translate(260, 280)"><use href="#bud"/></g>
+    <g transform="translate(180, 220)"><use href="#bud"/></g>
+    <g transform="translate(100, 150)"><use href="#bud"/></g>
+    <g transform="translate(220, 80)"><use href="#bud"/></g>
+  </svg>
+</div>
+
 <div class="petals" id="petals"></div>
+
+<button class="flower-toggle" id="flowerToggleBtn" onclick="toggleFlowerMode()" title="Chuyển loại hoa">
+  <span class="flower-icon" id="flowerIcon">🌼</span>
+  <span class="flower-label" id="flowerLabel">Hoa mai tên chị</span>
+</button>
 
 <div class="floating-story-btn" onclick="openStoryModal()">💌</div>
 
@@ -528,7 +704,7 @@
 
   <div class="card">
     <div class="to-line">
-      <span class="icon">🌸</span>
+      <span class="icon" id="cardIcon">🌼</span>
       <span class="to-label">for chị Mai&nbsp;·&nbsp;</span>
     </div>
 
@@ -617,16 +793,12 @@
   <div class="story-box">
     <button class="story-close" onclick="closeStoryModal()">×</button>
 
-    <!-- Bước 1: Câu hỏi bảo mật Trò chơi -->
     <div class="story-step active" id="modalStep1">
       <h3 class="story-title">Xác nhận danh tính 🕵️‍♀️</h3>
       <p class="story-p">Chị chọn trò chơi đi</p>
       <div class="game-options">
-        <!-- Nút Sai -->
         <button class="game-btn" onclick="wrongGame(this)">🎮 Chơi Liên Quân chung rank</button>
-        <!-- Nút Đúng -->
         <button class="game-btn" onclick="rightGame()">♟️ Đánh Cờ Vua</button>
-        <!-- Nút Sai -->
         <button class="game-btn" onclick="wrongGame(this)">🔫 Bắn PUBG chạy bo</button>
       </div>
       <p class="bday-hint" id="gameHint" style="margin-top:12px;"></p>
@@ -662,7 +834,7 @@
         <p style="margin-top: 8px;">Em không giỏi nói những lời ngọt ngào sến súa mỗi ngày, nên em đã tự tay viết code làm ra trang web nhỏ này.</p>
         <p style="margin-top: 8px;">Mỗi sáng thức dậy, em hy vọng trang web này sẽ thay em gửi đến chị một lời động viên nho nhỏ. Giống như một cái ôm ảo để chị bắt đầu ngày mới vậy đó.</p>
         <p style="margin-top: 8px;">Dù có chuyện gì thì chị vẫn luôn có em ở đây nhé! Cố lên nha! 💕</p>
-        <p style="margin-top: 8px;">Và nếu chị giải mã và thấy bí mật nhỏ trong trang web này. Dù chị nghĩ gì thì bữa chị nhắn là tùy em nên là em sẽ làm điều em muốn. (còn nếu chưa thì hmm.... ai biết gọi em chỉ cho lethienphu20062006@gmail.com)</p>
+        <p style="margin-top: 8px;">Và nếu chị giải mã và thấy bí mật nhỏ trong trang web này. Dù chị nghĩ gì thì bữa chị nhắn là tùy em nên là em sẽ làm điều em muốn. (còn nếu chưa thì hmm.... ai biết gọi em chỉ cho lethienphu2006@gmail.com)</p>
       </div>
     </div>
 
@@ -671,9 +843,53 @@
 
 <script>
   let wishes = [];
-
   let isVN = false;
   let currentWish = null;
+  let isMaiMode = true;  
+
+  const FLOWER_CONFIG = {
+    mai: {
+      icon: '🌼',
+      label: 'Hoa mai tên chị', 
+      cardIcon: '🌼'
+    },
+    dao: {
+      icon: '🌸',
+      label: 'Hoa đào chị chụp',
+      cardIcon: '🌸'
+    }
+  };
+
+  function applyFlowerMode(mai) {
+    const cfg = mai ? FLOWER_CONFIG.mai : FLOWER_CONFIG.dao;
+    document.body.classList.toggle('mai-mode', mai);
+    document.getElementById('flowerIcon').textContent = cfg.icon;
+    document.getElementById('flowerLabel').textContent = cfg.label;
+    document.getElementById('cardIcon').textContent = cfg.cardIcon;
+    spawnPetals(mai);
+  }
+
+  function toggleFlowerMode() {
+    isMaiMode = !isMaiMode;
+    applyFlowerMode(isMaiMode);
+  }
+
+  function spawnPetals(mai) {
+    const container = document.getElementById('petals');
+    container.innerHTML = '';  
+    const count = 14;
+    for (let i = 0; i < count; i++) {
+      const p = document.createElement('div');
+      p.className = mai ? 'petal mai' : 'petal';
+      const left   = Math.random() * 100;
+      const delay  = Math.random() * 14;
+      const dur    = 10 + Math.random() * 12;
+      const size   = mai ? (7 + Math.random() * 6) : (7 + Math.random() * 8);
+      const h      = mai ? size : size * 1.3;
+      p.style.cssText = `left:${left}%;width:${size}px;height:${h}px;animation-delay:${delay}s;animation-duration:${dur}s;`;
+      container.appendChild(p);
+    }
+  }
 
   function getKSTDate() {
     const now = new Date();
@@ -681,25 +897,21 @@
     const kst = new Date(utc + 9 * 3600000);
     const dd = String(kst.getDate()).padStart(2, '0');
     const mm = String(kst.getMonth() + 1).padStart(2, '0');
-    return { dateStr: `${dd}/${mm}`, day: kst.getDate(), month: kst.getMonth() + 1, year: kst.getFullYear() };
+    return { dateStr: `${dd}/${mm}`, day: kst.getDate(), month: kst.getMonth() + 1, year: kst.getFullYear(), kst };
   }
 
-  function formatDateBadge(day, month, year) {
+  function formatDateBadge(day, month, year, kst) {
     const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-    const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-    const now = new Date();
-    const utc = now.getTime() + now.getTimezoneOffset() * 60000;
-    const kst = new Date(utc + 9 * 3600000);
-    const dayName = days[kst.getDay()];
-    return `${dayName}, ${months[month-1]} ${day}, ${year}`;
+    const days   = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    return `${days[kst.getDay()]}, ${months[month-1]} ${day}, ${year}`;
   }
 
   function init() {
-    const { dateStr, day, month, year } = getKSTDate();
+    const { dateStr, day, month, year, kst } = getKSTDate();
     const wish = wishes.find(w => w.date === dateStr) || null;
     currentWish = wish;
 
-    document.getElementById('dateBadge').textContent = formatDateBadge(day, month, year) + '  ·  KST';
+    document.getElementById('dateBadge').textContent = formatDateBadge(day, month, year, kst) + '  ·  KST';
 
     const el = document.getElementById('wishText');
     if (wish) {
@@ -714,12 +926,11 @@
 
   function toggleLang() {
     if (!currentWish) return;
-    const el = document.getElementById('wishText');
+    const el  = document.getElementById('wishText');
     const btn = document.getElementById('btnLabel');
     const dot = document.getElementById('langDot');
 
     el.classList.add('hidden');
-
     setTimeout(() => {
       isVN = !isVN;
       if (isVN) {
@@ -739,22 +950,7 @@
     }, 320);
   }
 
-  function spawnPetals() {
-    const container = document.getElementById('petals');
-    const count = 14;
-    for (let i = 0; i < count; i++) {
-      const p = document.createElement('div');
-      p.className = 'petal';
-      const left = Math.random() * 100;
-      const delay = Math.random() * 14;
-      const dur = 10 + Math.random() * 12;
-      const size = 7 + Math.random() * 8;
-      p.style.cssText = `left:${left}%;width:${size}px;height:${size*1.3}px;animation-delay:${delay}s;animation-duration:${dur}s;`;
-      container.appendChild(p);
-    }
-  }
-
-  spawnPetals();
+  applyFlowerMode(isMaiMode);   
 
   fetch('myWish.json')
     .then(r => r.json())
@@ -763,25 +959,19 @@
       document.getElementById('wishText').textContent = '⚠️ Không tải được file myWish.json';
     });
 
-
-  const SECRET_BDAY = '02/02/2006'; 
+  const SECRET_BDAY = '02/02/2006';
 
   function showReveal(id) { document.getElementById(id).classList.add('open'); }
   function hideReveal(id) { document.getElementById(id).classList.remove('open'); }
 
-  function secretStep1() {
-    document.getElementById('secretBtn').style.display = 'none';
-    showReveal('secretReveal1');
-  }
-  function secretStep2() {
-    hideReveal('secretReveal1'); showReveal('secretReveal2');
-  }
+  function secretStep1() { document.getElementById('secretBtn').style.display='none'; showReveal('secretReveal1'); }
+  function secretStep2() { hideReveal('secretReveal1'); showReveal('secretReveal2'); }
   function secretStep3() {
     hideReveal('secretReveal2'); showReveal('secretReveal3');
     setTimeout(() => {
       initOtpFields('.otp-input', checkMyBday, 'myBdayHint');
-      const firstInput = document.querySelector('.otp-input');
-      if (firstInput) firstInput.focus();
+      const first = document.querySelector('.otp-input');
+      if (first) first.focus();
     }, 350);
   }
   function secretNo() {
@@ -793,163 +983,101 @@
   function checkMyBday() {
     const inputs = document.querySelectorAll('.otp-input');
     let val = '';
-    inputs.forEach((input, index) => {
-      val += input.value;
-      if (index === 1 || index === 3) val += '/';
-    });
-
+    inputs.forEach((input, i) => { val += input.value; if (i===1||i===3) val+='/'; });
     const hint = document.getElementById('myBdayHint');
-    if (val.length < 10) {
-      hint.textContent = 'nhập đủ ngày tháng năm nha chị~ 🎂'; return;
-    }
-
+    if (val.length < 10) { hint.textContent='nhập đủ ngày tháng năm nha chị~ 🎂'; return; }
     if (val === SECRET_BDAY) {
       hideReveal('secretReveal3'); showReveal('secretReveal4');
       const heart = document.getElementById('heartBtn');
-      heart.textContent = '♥';
-      heart.classList.add('unlocked'); 
+      heart.textContent='♥'; heart.classList.add('unlocked');
     } else {
-      hint.textContent = 'chị nhớ lại đi nha~ 🥺';
-      inputs.forEach(input => input.value = ''); 
-      inputs[0].focus();
+      hint.textContent='chị nhớ lại đi nha~ 🥺';
+      inputs.forEach(i => i.value=''); inputs[0].focus();
     }
   }
 
-
-  const HER_BDAY = '24/02/2005'; 
+  const HER_BDAY = '24/02/2005';
 
   function openStoryModal() {
     document.getElementById('storyModal').classList.add('active');
-    document.getElementById('modalStep1').classList.add('active');
-    document.getElementById('modalStep2').classList.remove('active');
-    document.getElementById('modalStep3').classList.remove('active');
+    ['modalStep1','modalStep2','modalStep3'].forEach((id,i) =>
+      document.getElementById(id).classList.toggle('active', i===0));
     document.getElementById('gameHint').textContent = '';
   }
+  function closeStoryModal() { document.getElementById('storyModal').classList.remove('active'); }
 
-  function closeStoryModal() {
-    document.getElementById('storyModal').classList.remove('active');
-  }
-
-  function wrongGame(btnElement) {
-    btnElement.classList.add('shake');
+  function wrongGame(btn) {
+    btn.classList.add('shake');
     document.getElementById('gameHint').textContent = 'Sai rồi! Khai mau, bạn là ai?? 🤨';
-    setTimeout(() => btnElement.classList.remove('shake'), 400);
+    setTimeout(() => btn.classList.remove('shake'), 400);
   }
-
   function rightGame() {
     document.getElementById('modalStep1').classList.remove('active');
     document.getElementById('modalStep2').classList.add('active');
     setTimeout(() => {
       initOtpFields('.her-otp-input', checkHerBday, 'herBdayHint');
-      const firstInput = document.querySelector('.her-otp-input');
-      if (firstInput) firstInput.focus();
+      const first = document.querySelector('.her-otp-input');
+      if (first) first.focus();
     }, 100);
   }
-
   function checkHerBday() {
     const inputs = document.querySelectorAll('.her-otp-input');
     let val = '';
-    inputs.forEach((input, index) => {
-      val += input.value;
-      if (index === 1 || index === 3) val += '/';
-    });
-
+    inputs.forEach((input,i) => { val += input.value; if (i===1||i===3) val+='/'; });
     const hint = document.getElementById('herBdayHint');
-    if (val.length < 10) {
-      hint.textContent = 'nhập đủ ngày tháng năm đi mà 🥺'; return;
-    }
-
+    if (val.length < 10) { hint.textContent='nhập đủ ngày tháng năm đi mà 🥺'; return; }
     if (val === HER_BDAY) {
       document.getElementById('modalStep2').classList.remove('active');
       document.getElementById('modalStep3').classList.add('active');
     } else {
-      hint.textContent = 'Ủa chị quên sinh nhật mình rồi hả? 🥲';
-      inputs.forEach(input => input.value = ''); 
-      inputs[0].focus();
+      hint.textContent='Ủa chị quên sinh nhật mình rồi hả? 🥲';
+      inputs.forEach(i => i.value=''); inputs[0].focus();
     }
   }
 
-  function initOtpFields(inputClass, checkFunction, hintId) {
-    const inputs = document.querySelectorAll(inputClass);
-    if (inputs.length === 0 || inputs[0]._init) return;
-
+  function initOtpFields(sel, checkFn, hintId) {
+    const inputs = document.querySelectorAll(sel);
+    if (!inputs.length || inputs[0]._init) return;
     inputs.forEach((input, index) => {
       input._init = true;
-
-      input.addEventListener('input', (e) => {
-        input.value = input.value.replace(/\D/g, ''); 
-        if (input.value !== '' && index < inputs.length - 1) {
-          inputs[index + 1].focus();
-        }
-        document.getElementById(hintId).textContent = '';
+      input.addEventListener('input', () => {
+        input.value = input.value.replace(/\D/g,'');
+        if (input.value && index < inputs.length-1) inputs[index+1].focus();
+        document.getElementById(hintId).textContent='';
       });
-
-      input.addEventListener('keydown', (e) => {
-        if (e.key === 'Backspace') {
-          if (input.value === '' && index > 0) {
-            inputs[index - 1].focus();
-            inputs[index - 1].value = ''; 
-          }
-        } else if (e.key === 'Enter') {
-          checkFunction();
-        } else if (e.key === 'ArrowLeft' && index > 0) {
-          inputs[index - 1].focus();
-        } else if (e.key === 'ArrowRight' && index < inputs.length - 1) {
-          inputs[index + 1].focus();
-        }
+      input.addEventListener('keydown', e => {
+        if (e.key==='Backspace' && !input.value && index>0) { inputs[index-1].focus(); inputs[index-1].value=''; }
+        else if (e.key==='Enter') checkFn();
+        else if (e.key==='ArrowLeft'  && index>0)              inputs[index-1].focus();
+        else if (e.key==='ArrowRight' && index<inputs.length-1) inputs[index+1].focus();
       });
-
-      input.addEventListener('paste', (e) => {
+      input.addEventListener('paste', e => {
         e.preventDefault();
-        const pasteData = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 8);
-        for (let i = 0; i < pasteData.length; i++) {
-          if (index + i < inputs.length) {
-            inputs[index + i].value = pasteData[i];
-            inputs[index + i].focus();
-          }
-        }
+        const d = e.clipboardData.getData('text').replace(/\D/g,'').slice(0,8);
+        for (let i=0;i<d.length;i++) if (index+i<inputs.length) { inputs[index+i].value=d[i]; inputs[index+i].focus(); }
       });
     });
   }
 
-  let loveOpen = false;
-  let loveTimer = null;
-
+  let loveOpen=false, loveTimer=null;
   function toggleLove() {
-    const popup = document.getElementById('lovePopup');
-    const heart = document.getElementById('heartBtn');
-    const isUnlocked = heart.classList.contains('unlocked');
-
-    loveOpen = !loveOpen;
-    popup.classList.toggle('show', loveOpen);
-    
-    if (!isUnlocked) {
-      heart.textContent = loveOpen ? '♥' : '♡';
-      heart.style.animation = loveOpen ? 'heartbeatBig 2s ease-in-out infinite' : '';
+    const popup=document.getElementById('lovePopup');
+    const heart=document.getElementById('heartBtn');
+    const unlocked=heart.classList.contains('unlocked');
+    loveOpen=!loveOpen;
+    popup.classList.toggle('show',loveOpen);
+    if (!unlocked) {
+      heart.textContent=loveOpen?'♥':'♡';
+      heart.style.animation=loveOpen?'heartbeatBig 2s ease-in-out infinite':'';
     }
-
     clearTimeout(loveTimer);
-    if (loveOpen) {
-      loveTimer = setTimeout(() => {
-        loveOpen = false;
-        popup.classList.remove('show');
-        if (!isUnlocked) {
-          heart.textContent = '♡';
-          heart.style.animation = '';
-        }
-      }, 4000);
-    }
+    if (loveOpen) loveTimer=setTimeout(()=>{ loveOpen=false; popup.classList.remove('show'); if(!unlocked){heart.textContent='♡';heart.style.animation='';} }, 4000);
   }
-
-  document.addEventListener('click', (e) => {
+  document.addEventListener('click', e => {
     if (loveOpen && !e.target.closest('#heartBtn') && !e.target.closest('#lovePopup')) {
-      loveOpen = false;
-      document.getElementById('lovePopup').classList.remove('show');
-      const heart = document.getElementById('heartBtn');
-      if (!heart.classList.contains('unlocked')) {
-        heart.textContent = '♡';
-        heart.style.animation = '';
-      }
+      loveOpen=false; document.getElementById('lovePopup').classList.remove('show');
+      const heart=document.getElementById('heartBtn');
+      if (!heart.classList.contains('unlocked')) { heart.textContent='♡'; heart.style.animation=''; }
       clearTimeout(loveTimer);
     }
   });
