@@ -834,7 +834,7 @@
         <p style="margin-top: 8px;">Em không giỏi nói những lời ngọt ngào sến súa mỗi ngày, nên em đã tự tay viết code làm ra trang web nhỏ này.</p>
         <p style="margin-top: 8px;">Mỗi sáng thức dậy, em hy vọng trang web này sẽ thay em gửi đến chị một lời động viên nho nhỏ. Giống như một cái ôm ảo để chị bắt đầu ngày mới vậy đó.</p>
         <p style="margin-top: 8px;">Dù có chuyện gì thì chị vẫn luôn có em ở đây nhé! Cố lên nha! 💕</p>
-        <p style="margin-top: 8px;">Và nếu chị giải mã và thấy bí mật nhỏ trong trang web này. Dù chị nghĩ gì thì bữa chị nhắn là tùy em nên là em sẽ làm điều em muốn. (còn nếu chưa thì hmm.... ai biết gọi em chỉ cho lethienphu2006@gmail.com)</p>
+        <p style="margin-top: 8px;">Và nếu chị giải mã và thấy bí mật nhỏ trong trang web này. Dù chị nghĩ gì thì bữa chị nhắn là tùy em nên là em sẽ làm điều em muốn. (còn nếu chưa thì hmm.... ai biết gọi em chỉ cho lethienphu20062006@gmail.com)</p>
       </div>
     </div>
 
@@ -847,25 +847,32 @@
   let currentWish = null;
   let isMaiMode = true;  
 
+  // SVG vẽ thủ công cho Hoa Mai và Hoa Đào siêu đẹp, có đổ bóng nhẹ
+  const maiSvg = `<svg width="1.4em" height="1.4em" viewBox="0 0 100 100" style="display:inline-block; vertical-align:middle; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.15));"><g transform="translate(50, 50)"><circle cx="0" cy="-22" r="20" fill="#fde047"/><circle cx="21" cy="-7" r="20" fill="#fde047"/><circle cx="13" cy="18" r="20" fill="#fde047"/><circle cx="-13" cy="18" r="20" fill="#fde047"/><circle cx="-21" cy="-7" r="20" fill="#fde047"/><circle cx="0" cy="0" r="13" fill="#facc15"/><line x1="0" y1="0" x2="0" y2="-14" stroke="#ca8a04" stroke-width="2"/><circle cx="0" cy="-14" r="2.5" fill="#ca8a04"/><line x1="0" y1="0" x2="13" y2="-4" stroke="#ca8a04" stroke-width="2"/><circle cx="13" cy="-4" r="2.5" fill="#ca8a04"/><line x1="0" y1="0" x2="8" y2="11" stroke="#ca8a04" stroke-width="2"/><circle cx="8" cy="11" r="2.5" fill="#ca8a04"/><line x1="0" y1="0" x2="-8" y2="11" stroke="#ca8a04" stroke-width="2"/><circle cx="-8" cy="11" r="2.5" fill="#ca8a04"/><line x1="0" y1="0" x2="-13" y2="-4" stroke="#ca8a04" stroke-width="2"/><circle cx="-13" cy="-4" r="2.5" fill="#ca8a04"/><circle cx="0" cy="0" r="5" fill="#eab308"/></g></svg>`;
+
+  const daoSvg = `<svg width="1.4em" height="1.4em" viewBox="0 0 100 100" style="display:inline-block; vertical-align:middle; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.15));"><g transform="translate(50, 50)"><circle cx="0" cy="-22" r="20" fill="#fbcfe8"/><circle cx="21" cy="-7" r="20" fill="#fbcfe8"/><circle cx="13" cy="18" r="20" fill="#fbcfe8"/><circle cx="-13" cy="18" r="20" fill="#fbcfe8"/><circle cx="-21" cy="-7" r="20" fill="#fbcfe8"/><circle cx="0" cy="0" r="13" fill="#f9a8d4"/><line x1="0" y1="0" x2="0" y2="-14" stroke="#db2777" stroke-width="2"/><circle cx="0" cy="-14" r="2.5" fill="#db2777"/><line x1="0" y1="0" x2="13" y2="-4" stroke="#db2777" stroke-width="2"/><circle cx="13" cy="-4" r="2.5" fill="#db2777"/><line x1="0" y1="0" x2="8" y2="11" stroke="#db2777" stroke-width="2"/><circle cx="8" cy="11" r="2.5" fill="#db2777"/><line x1="0" y1="0" x2="-8" y2="11" stroke="#db2777" stroke-width="2"/><circle cx="-8" cy="11" r="2.5" fill="#db2777"/><line x1="0" y1="0" x2="-13" y2="-4" stroke="#db2777" stroke-width="2"/><circle cx="-13" cy="-4" r="2.5" fill="#db2777"/><circle cx="0" cy="0" r="5" fill="#ec4899"/></g></svg>`;
+
   const FLOWER_CONFIG = {
     mai: {
-      icon: '🌼',
+      icon: maiSvg,
       label: 'Hoa mai tên chị', 
-      cardIcon: '🌼'
+      cardIcon: maiSvg
     },
     dao: {
-      icon: '🌸',
+      icon: daoSvg,
       label: 'Hoa đào chị chụp',
-      cardIcon: '🌸'
+      cardIcon: daoSvg
     }
   };
 
   function applyFlowerMode(mai) {
     const cfg = mai ? FLOWER_CONFIG.mai : FLOWER_CONFIG.dao;
     document.body.classList.toggle('mai-mode', mai);
-    document.getElementById('flowerIcon').textContent = cfg.icon;
+    
+    // Đổi textContent thành innerHTML để nhúng trực tiếp SVG cực đẹp vào HTML
+    document.getElementById('flowerIcon').innerHTML = cfg.icon;
     document.getElementById('flowerLabel').textContent = cfg.label;
-    document.getElementById('cardIcon').textContent = cfg.cardIcon;
+    document.getElementById('cardIcon').innerHTML = cfg.cardIcon;
     spawnPetals(mai);
   }
 
@@ -996,7 +1003,7 @@
     }
   }
 
-  const HER_BDAY = '24/02/2005';
+  const HER_BDAY = '24/04/2005';
 
   function openStoryModal() {
     document.getElementById('storyModal').classList.add('active');
